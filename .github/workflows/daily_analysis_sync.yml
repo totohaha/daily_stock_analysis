@@ -42,8 +42,11 @@ jobs:
           git config --global user.name "totohaha"
           git config --global user.email "wuxianguk@hotmail.com"
           
-          # Force add the reports directory (bypassing the .gitignore rule)
-          git add -f reports/
-          
-          # Only commit if new reports were actually generated
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generate daily AI stock reports" && git push)
+          # Check if the reports directory exists before trying to add it
+          if [ -d "reports" ]; then
+            git add -f reports/
+            # Only commit if new reports were actually generated
+            git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generate daily AI stock reports" && git push)
+          else
+            echo "No reports directory found. Skipping commit."
+          fi
