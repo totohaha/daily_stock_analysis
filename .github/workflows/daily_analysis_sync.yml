@@ -35,7 +35,7 @@ jobs:
           STOCK_LIST: ${{ vars.STOCK_LIST }}
           MARKET_REVIEW_REGION: us
         run: |
-          python main.py
+          python main.py --force-run
 
       - name: Commit and Push Reports to Repository
         run: |
