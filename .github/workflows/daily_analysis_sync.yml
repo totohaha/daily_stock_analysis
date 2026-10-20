@@ -42,11 +42,13 @@ jobs:
           git config --global user.name "totohaha"
           git config --global user.email "wuxianguk@hotmail.com"
           
-          # Check if the reports directory exists before trying to add it
           if [ -d "reports" ]; then
             git add -f reports/
-            # Only commit if new reports were actually generated
-            git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generate daily AI stock reports" && git push)
+            if ! git diff --quiet || ! git diff --staged --quiet; then
+              git commit -m "Auto-generate daily AI stock reports"
+              git pull --rebase origin main
+              git push origin main
+            fi
           else
             echo "No reports directory found. Skipping commit."
           fi
